@@ -81,11 +81,13 @@ RCT_EXPORT_METHOD(getSafeAreaInsetsForRootView:(RCTPromiseResolveBlock)resolve
 - (UIEdgeInsets)safeAreaInsetsForRootView {
     UIView *rootView = nil;
     
-    UIWindow *window = RCTSharedApplication().keyWindow;
-    if (window) {
+    for (UIWindow *window in RCTSharedApplication().windows) {
         UIViewController *rootViewController = window.rootViewController;
         if (rootViewController) {
             rootView = rootViewController.view;
+        }
+        if ([rootView isKindOfClass:[RCTRootView class]]) {
+            break;
         }
     }
     
